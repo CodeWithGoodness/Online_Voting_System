@@ -72,30 +72,52 @@ public class Voter {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName() {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public void Register(){
-        Voter reg = new Voter();
+        Admin reg = new Admin();
         System.out.println("First Name: " );
         setFirstName(new Scanner(System.in).next());
+
         System.out.println("Last Name: " );
         setLastName(new Scanner(System.in).next());
+
         System.out.println("Gender: ");
         setGender(new Scanner(System.in).next());
+
         System.out.println("State of residence: ");
         setState(new Scanner(System.in).next());
+
         System.out.println("Age: ");
         setAge(new Scanner(System.in).nextInt());
+
         System.out.println("Password: ");
         setPassword(new Scanner(System.in).next());
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             Statement statement = connection.createStatement();
+            System.out.println(getLastName());
             int register = statement.executeUpdate("insert into Registered_Voters (firstName,lastName, Gender, State," +
-                    "Age , password) values('"+firstName+"','"+getLastName()+"', '"+gender+"', '"+state+"','"+age+"'," +
-                    " '"+password+"') ");
+                    "Age , password) values('"+getFirstName()+"','"+getLastName()+"', '"+getGender()+"', '"+getState()+"','"+getAge()+"'," +
+                    " '"+getPassword()+"') ");
         }catch (SQLException e){
             e.printStackTrace();
-        }registered = true;
+        }
+        registered = true;
     }
     public boolean checkPassword(){
         Voter reg = new Voter();
@@ -139,19 +161,5 @@ public class Voter {
         }
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
 
-    public void setFirstName() {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 }
