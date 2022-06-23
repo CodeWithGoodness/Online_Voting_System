@@ -4,14 +4,24 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class Voter {
-    private String name;
+    private String firstName;
+    private String lastName;
     boolean registered = false;
+    private boolean passFound = false;
     private int age;
     private String gender;
     private String state;
     private String password;
     private String logInName;
     private String logInPassword;
+
+    public boolean isPassFound() {
+        return passFound;
+    }
+
+    public void setPassFound(boolean passFound) {
+        this.passFound = passFound;
+    }
 
     public String getLogInName() {
         return logInName;
@@ -59,33 +69,29 @@ public class Voter {
     public void setState(String state) {
         this.state = state;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
     public void Register(){
         Voter reg = new Voter();
-        Scanner input = new Scanner(System.in);
-        System.out.println("Name: " );
-        setName(input.next());
+        System.out.println("First Name: " );
+        setFirstName(new Scanner(System.in).next());
+        System.out.println("Last Name: " );
+        setLastName(new Scanner(System.in).next());
         System.out.println("Gender: ");
-        setGender(input.next());
+        setGender(new Scanner(System.in).next());
         System.out.println("State of residence: ");
-        setState(input.next());
+        setState(new Scanner(System.in).next());
         System.out.println("Age: ");
-        setAge(input.nextInt());
+        setAge(new Scanner(System.in).nextInt());
         System.out.println("Password: ");
-        setPassword(input.next());
+        setPassword(new Scanner(System.in).next());
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             Statement statement = connection.createStatement();
-            int register = statement.executeUpdate("insert into Registered_Voters (Name,Gender, State," +
-                    "Age , password) values('"+name+"', '"+gender+"', '"+state+"','"+age+"'," +
+            int register = statement.executeUpdate("insert into Registered_Voters (firstName,lastName, Gender, State," +
+                    "Age , password) values('"+firstName+"','"+getLastName()+"', '"+gender+"', '"+state+"','"+age+"'," +
                     " '"+password+"') ");
         }catch (SQLException e){
             e.printStackTrace();
@@ -97,33 +103,55 @@ public class Voter {
             Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from account where   ");
+            ResultSet resultSet = statement.executeQuery("select * from registered_voters");
+            System.out.println("Enter your First Name: ");
+            reg.setLogInName( new Scanner(System.in).next());
+            System.out.println("Enter your password: ");
+            reg.setLogInPassword( new Scanner(System.in).next());
             while(resultSet.next()){
                 if(reg.logInPassword.equals(resultSet.getString("password"))&&
-                        reg.logInName.equalsIgnoreCase(resultSet.getString("Name"))){
-                    return true;
-                }else
-                    System.out.println("Incorrect password");
+                        reg.logInName.equalsIgnoreCase(resultSet.getString("firstName"))){
+                   setPassFound(true);
+                    System.out.println("Welcome");
+                    break;
+                }
+                else {
+                    setPassFound(false);
+                }
             }
-        }catch (SQLException e){
+            if(!passFound){
+                System.out.println("Incorrect password");
+            }
+            }catch (SQLException e){
             e.printStackTrace();
         }return false;
     }
     public static void LogIn(){
         Voter reg = new Voter();
-        Scanner input = new Scanner(System.in);
         System.out.println("Login as? \n 1. Admin \n 2.User");
-        String log = input.next();
+        String log =  new Scanner(System.in).next();
         switch (log){
-            case "1":
+            case "2":
                 if(reg.registered = true){
-                    System.out.println("Enter your Name: ");
-                    reg.setLogInName(input.next());
-                    System.out.println("Enter your password: ");
-                    reg.setLogInPassword(input.next());
-                   reg.checkPassword();
+                    reg.checkPassword();
                 }
 
         }
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName() {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
