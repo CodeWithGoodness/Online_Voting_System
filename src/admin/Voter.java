@@ -14,7 +14,9 @@ public class Voter {
     public void setVoteCount(String voteCount) {
         this.voteCount = voteCount;
     }
-
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
     private String firstName;
     private String lastName;
     boolean registered = false;
@@ -118,14 +120,16 @@ public class Voter {
         System.out.println("Password: ");
         setPassword(new Scanner(System.in).next());
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+           connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("insert into voting_database (firstName,lastName, Gender, State," +
+           statement = connection.createStatement();
+           statement.executeUpdate("insert into voting_database (firstName,lastName, Gender, State," +
                     "Age , password, status) values('"+getFirstName()+"','"+getLastName()+"', '"+getGender()+"', '"+getState()+"','"+getAge()+"'," +
                     " '"+getPassword()+"', 'Voter') ");
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            Admin.close();
         }
         registered = true;
     }
@@ -154,9 +158,12 @@ public class Voter {
             if(!passFound){
                 System.out.println("Incorrect password");
             }
-            }catch (SQLException e){
+        }catch (SQLException e){
             e.printStackTrace();
-        }return false;
+        }finally {
+            Admin.close();
+            return false;
+        }
     }
     public static void LogIn(){
         Voter reg = new Voter();
@@ -168,19 +175,21 @@ public class Voter {
         Voter reg = new Voter();
        try
        {
-           Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+           reg.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                    "root", "Cecilia2002");
-           Statement statement = connection.createStatement();
-           ResultSet resultSet = statement.executeQuery("Select * from voting_database");
+           reg.statement = reg.connection.createStatement();
+            reg.resultSet = reg.statement.executeQuery("Select * from voting_database");
            System.out.println("Vote by entering your choice of Candidate's number as displayed");
            reg.setVoteCount(new Scanner(System.in).next());
-           statement.executeUpdate("update voting_database set votes = votes + 1 where ID = '"+reg.getVoteCount()+"'");
+           reg.statement.executeUpdate("update voting_database set votes = votes + 1 where ID = '"+reg.getVoteCount()+"'");
           // if(resultSet.getString("ID").contains( reg.getVoteCount())){
            //}
        }catch (SQLException e) {
            e.printStackTrace();
        }catch (InputMismatchException e){
            System.out.println("invalid input");
+       }finally {
+           Admin.close();
        }
     }
 }

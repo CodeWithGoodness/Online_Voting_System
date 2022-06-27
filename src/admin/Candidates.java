@@ -28,14 +28,15 @@ public class Candidates {
     public void setPosition(String position) {
         this.position = position;
     }
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
 
     public static void registerCandidate() throws SQLException {
         Voter nv = new Voter();
         Admin nad = new Admin();
         Candidates nc = new Candidates();
         while (true) {
-            Connection connection = null;
-            Statement statement = null;
             try {
                 System.out.println("Enter Candidates First name: ");
                 nv.setFirstName(new Scanner(System.in).next());
@@ -57,10 +58,10 @@ public class Candidates {
 
                 System.out.println("Party: ");
                 nc.setParty(new Scanner(System.in).next());
-                connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+                nc.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                         "root", "Cecilia2002");
-                statement = connection.createStatement();
-                statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
+                nc.statement = nc.connection.createStatement();
+                nc.statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
                         "Age , position, party, votes, status) values('" + nv.getFirstName() + "','" + nv.getLastName() + "', '" + nv.getGender() + "', '" + nv.getState() + "','" + nv.getAge() + "'," +
                         " '" + nc.getPosition() + "', '" + nc.getParty() + "', '" + nc.getNumberOfVotes() + "', 'Candidate') ");
                 System.out.print("Press 0 if there are no more candidates to add and 1 if you wish to add more: ");
@@ -77,44 +78,28 @@ public class Candidates {
             }catch(InputMismatchException ex){
             System.out.println("There's an error in your input");
             }finally {
-                if(connection != null){
-                    connection.close();
-                }
-                if(statement != null){
-                    statement.close();
-                }
+                Admin.close();
             }
-    }
+        }
     }
     public static void displayAllCandidates() throws SQLException {
         Voter nv = new Voter();
         Admin nad = new Admin();
         Candidates nc = new Candidates();
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            nc.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-           statement = connection.createStatement();
-           resultSet = statement.executeQuery("select * from voting_database where status = 'candidate'");
-            while (resultSet.next()){
-                System.out.println(resultSet.getString("ID" )+"\t" + resultSet.getString("firstname") +" " +
-                        resultSet.getString("lastname")+ "\t"+ resultSet.getString("position") +"\t"
-                        +resultSet.getString( "party" ).toUpperCase());
+           nc.statement = nc.connection.createStatement();
+           nc.resultSet = nc.statement.executeQuery("select * from voting_database where status = 'candidate'");
+            while (nc.resultSet.next()){
+                System.out.println(nc.resultSet.getString("ID" )+"\t" +nc.resultSet.getString("firstname") +" " +
+                        nc.resultSet.getString("lastname")+ "\t"+ nc.resultSet.getString("position") +"\t"
+                        +nc.resultSet.getString( "party" ).toUpperCase());
             }
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
-            if (connection != null){
-                connection.close();
-            }
-            if (statement != null){
-                statement.close();
-            }
-            if (resultSet != null){
-                resultSet.close();
-            }
+            Admin.close();
         }
     }
     public static void displayPresCandidates(){
@@ -122,38 +107,39 @@ public class Candidates {
         Admin nad = new Admin();
         Candidates nc = new Candidates();
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+             nc.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'president'");
+            nc.statement = nc.connection.createStatement();
+            nc.resultSet = nc.statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'president'");
             System.out.println("Presidential candidates");
-            while (resultSet.next()){
-                System.out.println(resultSet.getString("ID" )+"\t" + resultSet.getString("firstname") +" " +
-                        resultSet.getString("lastname")+ "\t"+ resultSet.getString( "party" ).toUpperCase());
+            while(nc.resultSet.next()){
+                System.out.println(nc.resultSet.getString("ID" )+"\t" + nc.resultSet.getString("firstname") +" " +
+                        nc.resultSet.getString("lastname")+ "\t"+ nc.resultSet.getString( "party" ).toUpperCase());
             }
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            Admin.close();
         }
-
     }
     public static void displayGovCandidates(){
         Voter nv = new Voter();
         Admin nad = new Admin();
         Candidates nc = new Candidates();
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+             nc.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'governor'");
+            Statement statement = nc.connection.createStatement();
+            nc.resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'governor'");
             System.out.println("Governorship candidates");
-            while (resultSet.next()){
-                System.out.println(resultSet.getString("ID" )+"\t" + resultSet.getString("firstname") +" " +
-                        resultSet.getString("lastname")+"\t"+resultSet.getString( "party" ).toUpperCase());
+            while (nc.resultSet.next()){
+                System.out.println(nc.resultSet.getString("ID" )+"\t" + nc.resultSet.getString("firstname") +" " +
+                        nc.resultSet.getString("lastname")+"\t"+nc.resultSet.getString( "party" ).toUpperCase());
             }
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            Admin.close();
         }
-
     }
-
 }

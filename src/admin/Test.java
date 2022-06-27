@@ -2,7 +2,7 @@ package admin;
 public class Test {
     public static void main(String[]args){
         Admin ad = new Admin();
-        Voter.LogIn();
+       // Voter.LogIn();
        // Cecilia2002
         //ad.database();
        // ad.candidatesDatabase();

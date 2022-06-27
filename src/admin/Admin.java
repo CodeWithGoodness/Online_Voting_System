@@ -30,6 +30,7 @@ public class Admin extends Voter {
     private String newPassword;
     Connection connection = null;
     Statement statement = null;
+    ResultSet resultSet = null;
     public void database() throws SQLException {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
@@ -43,14 +44,24 @@ public class Admin extends Voter {
         }catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            if(connection != null){
-                connection.close();
+            close();
             }
-            if(statement != null){
-                statement.close();
+    }
+
+    public static void close(){
+        Admin admin= new Admin();
+        try {
+            if(admin.connection != null){
+                admin.connection.close();
             }
+            if(admin.statement != null){
+                admin.statement.close();
+            }
+        }catch (SQLException ex){
+            ex.printStackTrace();
         }
     }
+
     public void addAdmins(){
         System.out.println("Enter First name: ");
         setFirstName( new Scanner(System.in).next());
@@ -67,14 +78,16 @@ public class Admin extends Voter {
         System.out.println("Age: ");
         setAge( new Scanner(System.in).nextInt());
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            int add = statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
+             statement = connection.createStatement();
+             statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
                     "Age , password, Status) values('"+getFirstName()+"','"+getLastName()+"', '"+getGender()+"', '"+getState()+"','"+getAge()+"'," +
                     " 'Admin@onlineVoting.com', 'Admin') ");
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            close();
         }
     }
 
@@ -86,13 +99,15 @@ public class Admin extends Voter {
         System.out.print("Position name: ");
         String removePosition =  new Scanner(System.in).next();
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            int remove = statement.executeUpdate("delete from database where firstName = '"+removeFirstName+"' && " +
+            statement = connection.createStatement();
+            statement.executeUpdate("delete from database where firstName = '"+removeFirstName+"' && " +
                     "lastName = '"+removeLastname+"' && position = '"+removePosition+"' && status = 'candidate'");
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            close();
         }
 
     }
@@ -111,15 +126,16 @@ public class Admin extends Voter {
         System.out.print("Last name: ");
         String removeLastname =  new Scanner(System.in).next();
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            int remove = statement.executeUpdate("delete from Admin where firstName = '"+removeFirstName+"' && " +
+             statement = connection.createStatement();
+             statement.executeUpdate("delete from Admin where firstName = '"+removeFirstName+"' && " +
                     "lastName = '"+removeLastname+"' && status = 'Admin'");
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            close();
         }
-
     }
     public void editPassword(){
                 System.out.println("Enter current password ");
@@ -139,13 +155,14 @@ public class Admin extends Voter {
                 }else {
                     System.out.println("Password incorrect!");
                 }
-    } public boolean checkAdminPassword(){
+}
+    public boolean checkAdminPassword(){
         Voter reg = new Voter();
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from voting_database where status = 'Admin'");
+             statement = connection.createStatement();
+             resultSet = statement.executeQuery("select * from voting_database where status = 'Admin'");
             System.out.print("Enter your password: ");
             reg.setLogInPassword( new Scanner(System.in).next());
             System.out.print("Enter your First Name: ");
@@ -166,16 +183,20 @@ public class Admin extends Voter {
             }
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            close();
         }return false;
-    }
+}
     public void updatePassword(){
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            int update = statement.executeUpdate("update database set password = '"+getConfirmPassword()+"' where status = 'Admin'");
+            statement = connection.createStatement();
+            statement.executeUpdate("update database set password = '"+getConfirmPassword()+"' where status = 'Admin'");
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            close();
         }
     }
-}
+    }
