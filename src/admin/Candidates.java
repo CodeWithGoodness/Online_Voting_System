@@ -29,11 +29,13 @@ public class Candidates {
         this.position = position;
     }
 
-    public static void registerCandidate() {
+    public static void registerCandidate() throws SQLException {
         Voter nv = new Voter();
         Admin nad = new Admin();
         Candidates nc = new Candidates();
         while (true) {
+            Connection connection = null;
+            Statement statement = null;
             try {
                 System.out.println("Enter Candidates First name: ");
                 nv.setFirstName(new Scanner(System.in).next());
@@ -55,10 +57,10 @@ public class Candidates {
 
                 System.out.println("Party: ");
                 nc.setParty(new Scanner(System.in).next());
-                Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+                connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                         "root", "Cecilia2002");
-                Statement statement = connection.createStatement();
-                int add = statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
+                statement = connection.createStatement();
+                statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
                         "Age , position, party, votes, status) values('" + nv.getFirstName() + "','" + nv.getLastName() + "', '" + nv.getGender() + "', '" + nv.getState() + "','" + nv.getAge() + "'," +
                         " '" + nc.getPosition() + "', '" + nc.getParty() + "', '" + nc.getNumberOfVotes() + "', 'Candidate') ");
                 System.out.print("Press 0 if there are no more candidates to add and 1 if you wish to add more: ");
@@ -74,18 +76,28 @@ public class Candidates {
             e.printStackTrace();
             }catch(InputMismatchException ex){
             System.out.println("There's an error in your input");
-        }
+            }finally {
+                if(connection != null){
+                    connection.close();
+                }
+                if(statement != null){
+                    statement.close();
+                }
+            }
     }
     }
-    public static void displayAllCandidates(){
+    public static void displayAllCandidates() throws SQLException {
         Voter nv = new Voter();
         Admin nad = new Admin();
         Candidates nc = new Candidates();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from voting_database where status = 'candidate'");
+           statement = connection.createStatement();
+           resultSet = statement.executeQuery("select * from voting_database where status = 'candidate'");
             while (resultSet.next()){
                 System.out.println(resultSet.getString("ID" )+"\t" + resultSet.getString("firstname") +" " +
                         resultSet.getString("lastname")+ "\t"+ resultSet.getString("position") +"\t"
@@ -93,6 +105,16 @@ public class Candidates {
             }
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            if (connection != null){
+                connection.close();
+            }
+            if (statement != null){
+                statement.close();
+            }
+            if (resultSet != null){
+                resultSet.close();
+            }
         }
     }
     public static void displayPresCandidates(){

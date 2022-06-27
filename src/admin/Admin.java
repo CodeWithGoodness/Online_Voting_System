@@ -28,11 +28,13 @@ public class Admin extends Voter {
     }
 
     private String newPassword;
-    public void database() {
+    Connection connection = null;
+    Statement statement = null;
+    public void database() throws SQLException {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
             int create = statement.executeUpdate("create table voting_Database (ID " +
                     "int auto_increment primary key, firstName varchar(50), lastName varchar(50), Gender Enum('M', 'F'), State varchar(20)," +
                     "Age int, Position varchar (20), Date Date, Party varchar(10), Votes int,password varchar(50), Status varChar(12))");
@@ -40,6 +42,13 @@ public class Admin extends Voter {
             System.out.println("Table already created");
         }catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if(connection != null){
+                connection.close();
+            }
+            if(statement != null){
+                statement.close();
+            }
         }
     }
     public void addAdmins(){

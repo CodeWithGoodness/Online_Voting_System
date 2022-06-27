@@ -2,6 +2,8 @@ package admin;
 public class Test {
     public static void main(String[]args){
         Admin ad = new Admin();
+        Voter.LogIn();
+       // Cecilia2002
         //ad.database();
        // ad.candidatesDatabase();
        // ad.votersDatabase();
@@ -9,10 +11,10 @@ public class Test {
       // Candidates.registerCandidate();
    //  ad.RemoveCandidates();
      //ad.addAdmins();
-       //Candidates.displayAllCandidates();
-       Candidates.displayPresCandidates();
-       System.out.println();
-       //Candidates.displayGovCandidates();
+      // Candidates.displayAllCandidates();
+      // Candidates.displayPresCandidates();
+      // System.out.println();
+       Candidates.displayGovCandidates();
        // add.editAdminPassword();
 
        //Voter nv = new Voter();
