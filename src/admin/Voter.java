@@ -5,15 +5,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Voter {
-    private String voteCount;
-
-    public String getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(String voteCount) {
-        this.voteCount = voteCount;
-    }
     Connection connection = null;
     Statement statement = null;
     ResultSet resultSet = null;
@@ -27,7 +18,15 @@ public class Voter {
     private String password;
     private String logInName;
     private String logInPassword;
+    private String voteCount;
 
+    public String getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(String voteCount) {
+        this.voteCount = voteCount;
+    }
     public boolean isPassFound() {
         return passFound;
     }
@@ -101,7 +100,7 @@ public class Voter {
     }
 
     public void Register(){
-        Admin reg = new Admin();
+        try{
         System.out.println("First Name: " );
         setFirstName(new Scanner(System.in).next());
 
@@ -119,7 +118,7 @@ public class Voter {
 
         System.out.println("Password: ");
         setPassword(new Scanner(System.in).next());
-        try{
+
            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
            statement = connection.createStatement();
@@ -128,18 +127,21 @@ public class Voter {
                     " '"+getPassword()+"', 'Voter') ");
         }catch (SQLException e){
             e.printStackTrace();
+        }catch (InputMismatchException ex){
+            System.out.println("Data not entered correctly");
         }finally {
             Admin.close();
+            System.out.println("You've been registered!");
         }
         registered = true;
     }
     public boolean checkPassword(){
         Voter reg = new Voter();
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from voting_database");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select * from voting_database");
             System.out.println("Enter your First Name: ");
             reg.setLogInName( new Scanner(System.in).next());
             System.out.println("Enter your password: ");
@@ -149,6 +151,7 @@ public class Voter {
                         reg.logInName.equalsIgnoreCase(resultSet.getString("firstName"))){
                    setPassFound(true);
                     System.out.println("Welcome");
+                    votersMenu();
                     break;
                 }
                 else {
@@ -156,12 +159,13 @@ public class Voter {
                 }
             }
             if(!passFound){
-                System.out.println("Incorrect password");
+                System.out.println("Incorrect name or password");
             }
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
             Admin.close();
+            Admin.closeResult();
             return false;
         }
     }
@@ -170,6 +174,30 @@ public class Voter {
         if(reg.registered = true){
             reg.checkPassword();
         }
+    }
+    public static void votersMenu(){
+        Admin admin = new Admin();
+        System.out.println("1.View all candidates \n 2.Vote \n 3.View results \n 4. Change password");
+        try {
+            String input = new Scanner(System.in).next();
+            switch (input){
+                case "1":
+                    Candidates.displayPresCandidates();
+                   Candidates.displayGovCandidates();
+                   break;
+                case "2":
+                    Vote();
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    admin.editPassword();
+                    break;
+            }
+        }catch (InputMismatchException e){
+            System.out.println("invalid input");
+        }
+
     }
     public static void Vote(){
         Voter reg = new Voter();
@@ -182,14 +210,13 @@ public class Voter {
            System.out.println("Vote by entering your choice of Candidate's number as displayed");
            reg.setVoteCount(new Scanner(System.in).next());
            reg.statement.executeUpdate("update voting_database set votes = votes + 1 where ID = '"+reg.getVoteCount()+"'");
-          // if(resultSet.getString("ID").contains( reg.getVoteCount())){
-           //}
        }catch (SQLException e) {
            e.printStackTrace();
        }catch (InputMismatchException e){
            System.out.println("invalid input");
        }finally {
            Admin.close();
+           Admin.closeResult();
        }
     }
 }

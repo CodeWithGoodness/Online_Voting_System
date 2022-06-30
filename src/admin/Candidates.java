@@ -82,26 +82,6 @@ public class Candidates {
             }
         }
     }
-    public static void displayAllCandidates() throws SQLException {
-        Voter nv = new Voter();
-        Admin nad = new Admin();
-        Candidates nc = new Candidates();
-        try{
-            nc.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
-                    "root", "Cecilia2002");
-           nc.statement = nc.connection.createStatement();
-           nc.resultSet = nc.statement.executeQuery("select * from voting_database where status = 'candidate'");
-            while (nc.resultSet.next()){
-                System.out.println(nc.resultSet.getString("ID" )+"\t" +nc.resultSet.getString("firstname") +" " +
-                        nc.resultSet.getString("lastname")+ "\t"+ nc.resultSet.getString("position") +"\t"
-                        +nc.resultSet.getString( "party" ).toUpperCase());
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            Admin.close();
-        }
-    }
     public static void displayPresCandidates(){
         Voter nv = new Voter();
         Admin nad = new Admin();
@@ -120,6 +100,7 @@ public class Candidates {
             e.printStackTrace();
         }finally {
             Admin.close();
+            Admin.closeResult();
         }
     }
     public static void displayGovCandidates(){
@@ -140,6 +121,8 @@ public class Candidates {
             e.printStackTrace();
         }finally {
             Admin.close();
+            Admin.closeResult();
+
         }
     }
 }

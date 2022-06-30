@@ -72,7 +72,7 @@
     <connections>
       <connection id="ce791e89-40e3-4d2d-807b-cf1f071f8c2c" active="true" signed="true">
         <database>
-          <name value="Connection 2" />
+          <name value="connection" />
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
@@ -120,7 +120,7 @@
           <idle-time-to-disconnect value="30" />
           <idle-time-to-disconnect-pool value="5" />
           <credential-expiry-time value="10" />
-          <max-connection-pool-size value="7" />
+          <max-connection-pool-size value="20" />
           <alternative-statement-delimiter value="" />
         </details>
         <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
