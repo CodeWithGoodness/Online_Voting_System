@@ -78,7 +78,7 @@ public class Candidates {
             }catch(InputMismatchException ex){
             System.out.println("There's an error in your input");
             }finally {
-                Admin.close();
+                AdminMethods.close();
             }
         }
     }
@@ -99,8 +99,8 @@ public class Candidates {
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
-            Admin.close();
-            Admin.closeResult();
+            AdminMethods.close();
+            AdminMethods.closeResult();
         }
     }
     public static void displayGovCandidates(){
@@ -120,9 +120,8 @@ public class Candidates {
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
-            Admin.close();
-            Admin.closeResult();
-
+            AdminMethods.close();
+            AdminMethods.closeResult();
         }
     }
 }

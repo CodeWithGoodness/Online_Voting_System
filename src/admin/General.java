@@ -7,7 +7,8 @@ public class General {
     }
     public static void Display(){
         Voter nv = new Voter();
-        Admin ad = new Admin();
+        Voter reg = new Voter();
+        AdminMethods adminMethods = new AdminMethods();
         while (true){
             System.out.println("Welcome to the online voting System. Are you a user or an admin? \n" +
                     "1. User \n 2.Admin");
@@ -35,7 +36,7 @@ public class General {
                            // ad.addAdmins();
                             break;
                         case "2":
-                            ad.checkAdminPassword();
+                            adminMethods.checkAdminPassword();
                             break;
                         default:
                             System.out.println("Press 1 to register or 2 to login");

@@ -130,7 +130,7 @@ public class Voter {
         }catch (InputMismatchException ex){
             System.out.println("Data not entered correctly");
         }finally {
-            Admin.close();
+            AdminMethods.close();
             System.out.println("You've been registered!");
         }
         registered = true;
@@ -164,8 +164,8 @@ public class Voter {
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
-            Admin.close();
-            Admin.closeResult();
+            AdminMethods.close();
+            AdminMethods.closeResult();
             return false;
         }
     }
@@ -176,7 +176,7 @@ public class Voter {
         }
     }
     public static void votersMenu(){
-        Admin admin = new Admin();
+        AdminMethods adminMethods = new AdminMethods();
         System.out.println("1.View all candidates \n 2.Vote \n 3.View results \n 4. Change password");
         try {
             String input = new Scanner(System.in).next();
@@ -191,7 +191,7 @@ public class Voter {
                 case "3":
                     break;
                 case "4":
-                    admin.editPassword();
+                    adminMethods.editPassword();
                     break;
             }
         }catch (InputMismatchException e){
@@ -215,8 +215,8 @@ public class Voter {
        }catch (InputMismatchException e){
            System.out.println("invalid input");
        }finally {
-           Admin.close();
-           Admin.closeResult();
+           AdminMethods.close();
+           AdminMethods.closeResult();
        }
     }
 }
