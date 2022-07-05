@@ -1,25 +1,37 @@
 package admin;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Election {
-    private Date electionDate;
-    java.util.Date currentDate = new java.util.Date();
-    currentDate = new java.util.Date() ;
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    private String electionDate;
+    private Date votingDate;
+    private Date date = new Date();
+    private String currentDate = format.format(date);
 
-    public Date getElectionDate() {
+    public String getElectionDate() {
         return electionDate;
     }
 
-    public Date getCurrentDate() {
+    public void setElectionDate(String electionDate) {
+        this.electionDate = electionDate;
+    }
+
+    public Date getVotingDate() throws ParseException {
+        return votingDate = format.parse(electionDate);
+    }
+
+   public void setVotingDate(String electionDate) throws ParseException {;
+       this.votingDate = format.parse(electionDate);
+    }
+
+    public String getCurrentDate() {
         return currentDate;
     }
 
-    public void setCurrentDate(Date currentDate) {
-        this.currentDate = currentDate;
-    }
-
-    public void setElectionDate(Date electionDate) {
-        this.electionDate = electionDate;
+    public void setCurrentDate(String date) {
+        currentDate = currentDate;
     }
 }
