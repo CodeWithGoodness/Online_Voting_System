@@ -5,13 +5,15 @@ import java.text.ParseException;
 public class ElectionMethods {
     public static void votingDay() throws ParseException {
         Election election = new Election();
-//        election.setElectionDate("05/07/2022");
-        System.out.println(election.getCurrentDate());
-//        System.out.println(election.getVotingDate());
-//        if (election.getCurrentDate().compareTo(election.getVotingDate()) == 0){
-//            System.out.println("foo");
-//        }
-//        else
-//            System.out.println("foo2");
+        AdminMethods.dateOfElection();
+        election.setElectionDate("06/07/2022");
+        if (election.getCurrentDate().compareTo(election.getVotingDate2()) == 0){
+            VoterMethods.Vote();
+       }
+        else if (election.getCurrentDate().compareTo(election.getVotingDate2()) > 0) {
+            System.out.println("Voting ended " + election.getDifference() + " day(s) ago!");
+        }else {
+            System.out.println("Voting is in " + election.getDifference() + " day(s) time!");
+        }
     }
 }

@@ -148,16 +148,14 @@ public class AdminMethods extends Voter {
             closeResult();
         }
     }
-    public boolean checkAdminPassword(){
+    public boolean checkAdminPassword(String firstName, String password){
         try{
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from voting_database where status = 'Admin' || status = 'Voter'");
-            System.out.print("Enter your password: ");
-            reg.setLogInPassword( new Scanner(System.in).next());
-            System.out.print("Enter your First Name: ");
-            reg.setLogInName(new Scanner(System.in).next());
+            reg.setLogInName(firstName);
+            reg.setLogInPassword(password);
             while(resultSet.next()){
                 if(reg.getLogInPassword().equals(resultSet.getString("password"))&&
                         reg.getLogInName().equalsIgnoreCase(resultSet.getString("firstName"))){
@@ -203,6 +201,10 @@ public class AdminMethods extends Voter {
         }finally {
             AdminMethods.close();
         }
+    }
+    public  static void dateOfElection(){
+        Election election = new Election();
+        election.setElectionDate("6/07/2022");
     }
 }
 
