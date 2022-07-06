@@ -1,11 +1,4 @@
 package admin;
-import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class Admin {
     private String changeCurrent, newPassword, confirmPassword;

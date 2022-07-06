@@ -11,7 +11,6 @@ public class CandidatesMethods {
 
     public static void registerCandidate(String firstName, String lastName,String gender, String origin, int age, String position, String party) throws SQLException {
         Voter nv = new Voter();
-        Admin nad = new Admin();
         Candidates nc = new Candidates();
         CandidatesMethods candidatesMethods = new CandidatesMethods();
         while (true) {
@@ -48,9 +47,6 @@ public class CandidatesMethods {
         }
     }
     public static void displayPresCandidates(){
-        Voter nv = new Voter();
-        Admin nad = new Admin();
-        Candidates nc = new Candidates();
         CandidatesMethods candidatesMethods = new CandidatesMethods();
         try{
             candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
@@ -70,9 +66,6 @@ public class CandidatesMethods {
         }
     }
     public static void displayGovCandidates(){
-        Voter nv = new Voter();
-        Admin nad = new Admin();
-        Candidates nc = new Candidates();
         CandidatesMethods candidatesMethods = new CandidatesMethods();
         try{
             candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",

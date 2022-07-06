@@ -75,7 +75,18 @@ public class VoterMethods {
                     CandidatesMethods.displayGovCandidates();
                     break;
                 case "2":
-                    ElectionMethods.votingDay();
+                    ElectionMethods.votingDay("06/07/2022");
+                    System.out.println("1. Presidential election \n 2. Governorship election");
+                    String input2 = new Scanner(System.in).next();
+                    if (input2.equals("1")){
+                        CandidatesMethods.displayPresCandidates();
+                        VoterMethods.Vote("");
+                    }else  if (input2.equals("2")){
+                        CandidatesMethods.displayGovCandidates();
+                        VoterMethods.Vote("");
+                    }else{
+                        System.out.println("wrong input!");
+                    }
                     break;
                 case "3":
                     break;
@@ -90,7 +101,7 @@ public class VoterMethods {
         }
 
     }
-    public static void Vote(){
+    public static void Vote(String vote){
         Voter reg = new Voter();
         try
         {
@@ -99,7 +110,7 @@ public class VoterMethods {
             reg.statement = reg.connection.createStatement();
             reg.resultSet = reg.statement.executeQuery("Select * from voting_database");
             System.out.println("Vote by entering your choice of Candidate's number as displayed");
-            reg.setVoteCount(new Scanner(System.in).next());
+            reg.setVoteCount(vote);
             reg.statement.executeUpdate("update voting_database set votes = votes + 1 where ID = '"+reg.getVoteCount()+"'");
         }catch (SQLException e) {
             e.printStackTrace();

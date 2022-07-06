@@ -202,9 +202,5 @@ public class AdminMethods extends Voter {
             AdminMethods.close();
         }
     }
-    public  static void dateOfElection(){
-        Election election = new Election();
-        election.setElectionDate("6/07/2022");
-    }
 }
 

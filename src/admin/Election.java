@@ -6,9 +6,8 @@ import java.util.Date;
 
 public class Election {
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-    private String electionDate;
+    private String electionDate, votingDate2;
     private Date votingDate;
-    private String votingDate2;
     private Date date = new Date();
     private String currentDate = format.format(date);
     private int difference;

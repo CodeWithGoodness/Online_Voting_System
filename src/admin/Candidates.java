@@ -1,9 +1,5 @@
 package admin;
 
-import java.sql.*;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class Candidates {
     private String position, party;
     private int numberOfVotes = 0;

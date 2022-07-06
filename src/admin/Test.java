@@ -10,15 +10,10 @@ public class Test {
         AdminMethods adminMethods = new AdminMethods();
         Election election = new Election();
         CandidatesMethods candidatesMethods = new CandidatesMethods();
-       // CandidatesMethods.registerCandidate("Lucas", "Sinclair", "M", "Imo", 44, "president", "APC" ) ;
-       ElectionMethods.votingDay();
+        ElectionMethods electionMethods = new ElectionMethods();
+//        electionMethods.changeVotingDay("07/07/2022");
+//       ElectionMethods.votingDay("6/7/2022");
+        VoterMethods.votersMenu();
 
-//        Scanner input = new Scanner(System.in);
-//        String firstname = input.next();
-//        String lastname = input.next();
-//        String gender = input.next();
-//        String origin = input.next();
-//        int age = input.nextInt();
-//        adminMethods.addAdmins(firstname, lastname, gender, origin, age);
     }
 }

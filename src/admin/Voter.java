@@ -1,9 +1,6 @@
 package admin;
 
 import java.sql.*;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class Voter {
     Connection connection = null;
     Statement statement = null;
