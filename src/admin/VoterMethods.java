@@ -16,13 +16,14 @@ public class VoterMethods {
             voter.setState(state);
             voter.setAge(age);
             voter.setPassword(password);
+            voter.setHasVoted(false);
 
             voter.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             voter.statement = voter.connection.createStatement();
             voter.statement.executeUpdate("insert into voting_database (firstName,lastName, Gender, State," +
-                    "Age , password, status) values('"+voter.getFirstName()+"','"+voter.getLastName()+"', '"+voter.getGender()+"'," +
-                    " '"+voter.getState()+"','"+voter.getAge()+"','"+voter.getPassword()+"', 'Voter') ");
+                    "Age , password, status, hasVoted) values('"+voter.getFirstName()+"','"+voter.getLastName()+"', '"+voter.getGender()+"'," +
+                    " '"+voter.getState()+"','"+voter.getAge()+"','"+voter.getPassword()+"', 'Voter', 'F') ");
         }catch (SQLException e){
             e.printStackTrace();
         }catch (InputMismatchException ex){
@@ -64,15 +65,39 @@ public class VoterMethods {
             return false;
         }
     }
+    public void checkVoted(){//checks for people that have voted already
+        try{
+            voter.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+                    "root", "Cecilia2002");
+            voter.statement = voter.connection.createStatement();
+            System.out.print("First name: ");
+            voter.setFirstName(new Scanner(System.in).next());
+            System.out.print("Password: ");
+            voter.setPassword(new Scanner(System.in).next());
+            voter.resultSet = voter.statement.executeQuery
+                    ("select * from voting_database where status = 'voter' && firstName = '"+voter.getFirstName()+"' && password = '"+voter.getPassword()+"'");
+            while(voter.resultSet.next()){
+                if(voter.resultSet.getString("hasVoted").equalsIgnoreCase("t")){
+                    System.out.println("You've voted already");
+                    break;
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            AdminMethods.close();
+            AdminMethods.closeResult();
+        }
+    }
     public static void votersMenu(){
         AdminMethods adminMethods = new AdminMethods();
-        System.out.println("1.View all candidates \n 2.Vote \n 3.View results \n 4. Change password");
+        System.out.println("1.View all candidates \n2.Vote \n3.View results \n4. Change password");
         try {
             String input = new Scanner(System.in).next();
             switch (input){
                 case "1":
                     CandidatesMethods.displayPresCandidates();
-                    CandidatesMethods.displayGovCandidates();
+                    CandidatesMethods.displaySenCandidates();
                     break;
                 case "2":
                     ElectionMethods.votingDay("07/07/2022");
@@ -81,7 +106,7 @@ public class VoterMethods {
                     ElectionMethods.results();
                     break;
                 case "4":
-                    adminMethods.editPassword("tree", "admins", "admins");
+                    adminMethods.editVotersPassword();
                     break;
             }
         }catch (InputMismatchException e){
@@ -101,6 +126,9 @@ public class VoterMethods {
             reg.resultSet = reg.statement.executeQuery("Select * from voting_database");
             reg.setVoteCount(vote);
             reg.statement.executeUpdate("update voting_database set votes = votes + 1 where ID = '"+reg.getVoteCount()+"'");
+            Voter voter = new Voter();
+            voter.setHasVoted(true);
+            reg.statement.executeUpdate("update voting_database set hasVoted = 'T' where firstName = '"+reg.getFirstName()+"'");
         }catch (SQLException e) {
             e.printStackTrace();
         }catch (InputMismatchException e){

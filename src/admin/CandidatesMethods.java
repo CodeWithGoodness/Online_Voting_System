@@ -9,19 +9,33 @@ public class CandidatesMethods {
     Statement statement = null;
     ResultSet resultSet = null;
 
-    public static void registerCandidate(String firstName, String lastName,String gender, String origin, int age, String position, String party) throws SQLException {
+    public static void registerCandidate() throws SQLException {
         Voter nv = new Voter();
         Candidates nc = new Candidates();
         CandidatesMethods candidatesMethods = new CandidatesMethods();
         while (true) {
             try {
-                nv.setFirstName(firstName);
-                nv.setLastName(lastName);
-                nv.setGender(gender);
-                nv.setState(origin);
-                nv.setAge(age);
-                nc.setPosition(position);
-                nc.setParty(party);
+                System.out.print("First Name: ");
+                nv.setFirstName(new Scanner(System.in).next());
+
+                System.out.print("Last name: ");
+                nv.setLastName(new Scanner(System.in).next());
+
+                System.out.print("Gender: ");
+                nv.setGender(new Scanner(System.in).next());
+
+                System.out.print("Origin: ");
+                nv.setState(new Scanner(System.in).next());
+
+                System.out.print("Age: ");
+                nv.setAge( new Scanner(System.in).nextInt());
+
+                System.out.print("Position(President or Senate): ");
+                nc.setPosition( new Scanner(System.in).next());
+
+                System.out.print("party: ");
+                nc.setParty(new Scanner(System.in).next());
+
                 candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                         "root", "Cecilia2002");
                 candidatesMethods.statement = candidatesMethods.connection.createStatement();
@@ -35,7 +49,7 @@ public class CandidatesMethods {
                 } else if (input.equals("1")) {
                     continue;
                 } else
-                    System.out.print("Press 0 if there are no more candidates to add and 1 if you wish to add more: ");
+                    System.out.print("Press 0 if there are no more candidates to add and 1 if you wish to add more");
             }
             catch(SQLException e){
                 e.printStackTrace();
@@ -65,14 +79,15 @@ public class CandidatesMethods {
             AdminMethods.closeResult();
         }
     }
-    public static void displayGovCandidates(){
+    public static void displaySenCandidates(){
         CandidatesMethods candidatesMethods = new CandidatesMethods();
         try{
             candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             Statement statement = candidatesMethods.connection.createStatement();
-            candidatesMethods.resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'governor'");
-            System.out.println("Governorship candidates");
+            candidatesMethods.resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'Senate'");
+            System.out.println();
+            System.out.println("Senatorial candidates");
             while (candidatesMethods.resultSet.next()){
                 System.out.println(candidatesMethods.resultSet.getString("ID" )+"\t" + candidatesMethods.resultSet.getString("firstname") +" " +
                         candidatesMethods.resultSet.getString("lastname")+"\t"+candidatesMethods.resultSet.getString( "party" ).toUpperCase());

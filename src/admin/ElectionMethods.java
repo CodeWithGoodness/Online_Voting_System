@@ -7,16 +7,19 @@ import java.util.Scanner;
 public class ElectionMethods {
     public static void votingDay( String date) throws ParseException {
         Election election = new Election();
+        ElectionMethods electionMethods = new ElectionMethods();
+        VoterMethods voterMethods = new VoterMethods();
         election.setElectionDate(date);
         if (election.getCurrentDate().compareTo(election.getVotingDate2()) == 0){
-            System.out.println("1. Presidential election \n 2. Governorship election");
+            voterMethods.checkVoted();
+            System.out.println("1. Vote for a presidential candidate \n2. Vote for a Senatorial candidate");
             String input2 = new Scanner(System.in).next();
             System.out.println("Vote by entering your choice of Candidate's number as displayed");
             if (input2.equals("1")){
                 CandidatesMethods.displayPresCandidates();
                 VoterMethods.Vote(new Scanner(System.in).next());
             }else  if (input2.equals("2")){
-                CandidatesMethods.displayGovCandidates();
+                CandidatesMethods.displaySenCandidates();
                 VoterMethods.Vote("");
             }else{
                 System.out.println("wrong input!");
@@ -38,8 +41,8 @@ public class ElectionMethods {
             Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             Statement statement = connection.createStatement();
-           ResultSet resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'governor'");
-            System.out.println("Governorship candidates");
+           ResultSet resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'Senate'");
+            System.out.println("Senatorial candidates");
             while (resultSet.next()){
                 System.out.println( resultSet.getString("firstname") +" "+ resultSet.getString("lastname")+
                         "\t"+resultSet.getString( "party" ).toUpperCase()+ "\t" + resultSet.getString("votes"));

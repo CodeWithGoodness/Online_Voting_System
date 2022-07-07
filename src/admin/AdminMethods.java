@@ -1,6 +1,7 @@
 package admin;
 
 import java.sql.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AdminMethods extends Voter {
@@ -16,16 +17,16 @@ public class AdminMethods extends Voter {
             adminMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             adminMethods.statement = adminMethods.connection.createStatement();
-            int create = adminMethods.statement.executeUpdate("create table voting_Database (ID " +
+            adminMethods.statement.executeUpdate("create table voting_Database (ID " +
                     "int auto_increment primary key, firstName varchar(50), lastName varchar(50), Gender Enum('M', 'F'), State varchar(20)," +
-                    "Age int, Position varchar (20), Date Date, Party varchar(10), Votes int,password varchar(50), Status varChar(12))");
+                    "Age int, Position varchar (20), Date Date, Party varchar(10), Votes int,password varchar(50), Status varChar(12), hasVoted Enum('T', 'F'))");
         }catch (SQLSyntaxErrorException ex) {
-            System.out.println("Table already created");
+            ex.printStackTrace();
+            //System.out.println("Table already created");
         }catch (SQLException e) {
             e.printStackTrace();
         }finally {
             close();
-            adminMethods.resultSet.close();
         }
     }
 
@@ -53,13 +54,24 @@ public class AdminMethods extends Voter {
         }
     }
 
-    public void addAdmins(String fName, String lname, String gender, String Origin, int age, String password){
-        setFirstName(fName);
-        setLastName( lname);
-        setGender(gender);
-        setState(Origin);
-        setAge( age);
-        setPassword(password);
+    public void addAdmins(){
+        System.out.print("First name: ");
+        setFirstName(new Scanner(System.in).next());
+
+        System.out.print("Last name: ");
+        setLastName(new Scanner(System.in).next());
+
+        System.out.print("Gender: ");
+        setGender(new Scanner(System.in).next());
+
+        System.out.print("State of Origin: ");
+        setState(new Scanner(System.in).next());
+
+        System.out.print("Age: ");
+        setAge(new Scanner(System.in).nextInt());
+
+        System.out.print("Password: ");
+        setPassword(new Scanner(System.in).next());
         try{
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
@@ -73,6 +85,43 @@ public class AdminMethods extends Voter {
             close();
         }
     }
+    public static void adminMenu() throws SQLException {
+        AdminMethods adminMethods = new AdminMethods();
+        System.out.println("1.Remove Admins \n2. Remove Candidate \n3. Edit password \n4. Check Results \n5. Add Candidate \n6. Add Admin");
+        try {
+            String input = new Scanner(System.in).next();
+            switch (input){
+                case "1":
+                    adminMethods.RemoveAdmin();
+                    break;
+                case "2":
+                    adminMethods.RemoveCandidates();
+                    break;
+                case "3":
+                    System.out.println("Enter current password");
+                    String currentPass = new Scanner(System.in).next();
+                    System.out.println("Enter new password");
+                    String newPass = new Scanner(System.in).next();
+                    System.out.println("Confirm new password");
+                    String confirmPass = new Scanner(System.in).next();
+                    adminMethods.editAdminPassword(currentPass, newPass,confirmPass);
+                    break;
+                case "4":
+                    ElectionMethods.results();
+                    break;
+                case "5":
+                    CandidatesMethods.registerCandidate();
+                    break;
+                case "6":
+                    adminMethods.addAdmins();
+                default:
+                    System.out.println("Wrong entry");
+            }
+        }catch (InputMismatchException exception){
+            System.out.println("Wrong entry");
+        }
+
+    }
 
     public void RemoveCandidates(){
         System.out.print("First name: ");
@@ -85,7 +134,7 @@ public class AdminMethods extends Voter {
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
-            statement.executeUpdate("delete from database where firstName = '"+removeFirstName+"' && " +
+            statement.executeUpdate("delete from voting_database where firstName = '"+removeFirstName+"' && " +
                     "lastName = '"+removeLastname+"' && position = '"+removePosition+"' && status = 'candidate'");
         }catch (SQLException e){
             e.printStackTrace();
@@ -103,7 +152,7 @@ public class AdminMethods extends Voter {
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
-            statement.executeUpdate("delete from Admin where firstName = '"+removeFirstName+"' && " +
+            statement.executeUpdate("delete from voting_database where firstName = '"+removeFirstName+"' && " +
                     "lastName = '"+removeLastname+"' && status = 'Admin'");
         }catch (SQLException e){
             e.printStackTrace();
@@ -111,12 +160,12 @@ public class AdminMethods extends Voter {
             close();
         }
     }
-    public void editPassword(String currentPass, String newPassword, String confirmNewPassword){
+    public void editAdminPassword(String currentPass, String newPassword, String confirmNewPassword){
         try {
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                 "root", "Cecilia2002");
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from voting_database");
+            resultSet = statement.executeQuery("select * from voting_database where status = admin");
             admin.setChangeCurrent(currentPass);
             while(resultSet.next()) {
                 //check if password entered by user matches with current password
@@ -146,12 +195,51 @@ public class AdminMethods extends Voter {
             closeResult();
         }
     }
+    public void editVotersPassword(){
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+                    "root", "Cecilia2002");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select * from voting_database where status = 'voter'");
+            System.out.print("Current password: ");
+            admin.setChangeCurrent(new Scanner(System.in).next());
+            while(resultSet.next()) {
+                //check if password entered by user matches with current password
+                if (admin.getChangeCurrent().equals(resultSet.getString("password"))) {
+                    setPassFound(true);
+                    System.out.print("New password: ");
+                    admin.setNewPassword(new Scanner(System.in).next());
+                    System.out.print("Confirm new password: ");
+                    admin.setConfirmPassword(new Scanner(System.in).next());
+                    //check confirm password and new password
+                    if (admin.getConfirmPassword().equals(admin.getNewPassword())) {
+                        updateVotPassword();
+                        System.out.println("Password Successfully Changed!");
+                        break;
+                    } else {
+                        System.out.println("Password mismatch!");
+                    }
+                    break;
+                } else {
+                    setPassFound(false);
+                }
+            }if (!isPassFound()) {
+                System.out.println("Incorrect password");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close();
+            closeResult();
+        }
+    }
+
     public boolean checkAdminPassword(String firstName, String password){
         try{
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from voting_database where status = 'Admin' || status = 'Voter'");
+            resultSet = statement.executeQuery("select * from voting_database where status = 'Admin'");
             reg.setLogInName(firstName);
             reg.setLogInPassword(password);
             while(resultSet.next()){
@@ -159,6 +247,7 @@ public class AdminMethods extends Voter {
                         reg.getLogInName().equalsIgnoreCase(resultSet.getString("firstName"))){
                     setPassFound(true);
                     System.out.println("Welcome");
+                    AdminMethods.adminMenu();
                     break;
                 }
                 else {

@@ -11,6 +11,16 @@ public class Voter {
     private boolean passFound = false;
     private int age;
 
+    public boolean isHasVoted() {
+        return hasVoted;
+    }
+
+    public void setHasVoted(boolean hasVoted) {
+        this.hasVoted = hasVoted;
+    }
+
+    private  boolean hasVoted = false;
+
     public boolean isRegistered() {
         return registered;
     }
