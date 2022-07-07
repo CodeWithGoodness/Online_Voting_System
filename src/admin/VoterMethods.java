@@ -75,23 +75,13 @@ public class VoterMethods {
                     CandidatesMethods.displayGovCandidates();
                     break;
                 case "2":
-                    ElectionMethods.votingDay("06/07/2022");
-                    System.out.println("1. Presidential election \n 2. Governorship election");
-                    String input2 = new Scanner(System.in).next();
-                    if (input2.equals("1")){
-                        CandidatesMethods.displayPresCandidates();
-                        VoterMethods.Vote("");
-                    }else  if (input2.equals("2")){
-                        CandidatesMethods.displayGovCandidates();
-                        VoterMethods.Vote("");
-                    }else{
-                        System.out.println("wrong input!");
-                    }
+                    ElectionMethods.votingDay("07/07/2022");
                     break;
                 case "3":
+                    ElectionMethods.results();
                     break;
                 case "4":
-                    adminMethods.editPassword();
+                    adminMethods.editPassword("tree", "admins", "admins");
                     break;
             }
         }catch (InputMismatchException e){
@@ -109,7 +99,6 @@ public class VoterMethods {
                     "root", "Cecilia2002");
             reg.statement = reg.connection.createStatement();
             reg.resultSet = reg.statement.executeQuery("Select * from voting_database");
-            System.out.println("Vote by entering your choice of Candidate's number as displayed");
             reg.setVoteCount(vote);
             reg.statement.executeUpdate("update voting_database set votes = votes + 1 where ID = '"+reg.getVoteCount()+"'");
         }catch (SQLException e) {

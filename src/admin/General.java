@@ -56,16 +56,18 @@ public class General {
                                 String origin = input.next();
                                 System.out.print("Age: ");
                                 int age = input.nextInt();
+                                System.out.print("Password: ");
+                                String password = input.next();
 
-                                adminMethods.addAdmins(firstName, lastName, gender, origin, age);
+                                adminMethods.addAdmins(firstName, lastName, gender, origin, age, password);
                                 break;
                             case "2":
                                 System.out.print("Enter your First Name: ");
                                 String firstName2 = input.next();
                                 System.out.print("Enter your password: ");
-                                String password = input.next();
+                                String password2 = input.next();
 
-                                adminMethods.checkAdminPassword(firstName2, password);
+                                adminMethods.checkAdminPassword(firstName2, password2);
                                 break;
                             default:
                                 System.out.println("Press 1 to register or 2 to login");

@@ -53,19 +53,20 @@ public class AdminMethods extends Voter {
         }
     }
 
-    public void addAdmins(String fName, String lname, String gender, String Origin, int age){
+    public void addAdmins(String fName, String lname, String gender, String Origin, int age, String password){
         setFirstName(fName);
         setLastName( lname);
         setGender(gender);
         setState(Origin);
         setAge( age);
+        setPassword(password);
         try{
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
                     "Age , password, Status) values('"+getFirstName()+"','"+getLastName()+"', '"+getGender()+"', '"+getState()+"','"+getAge()+"'," +
-                    " 'Admin@onlineVoting.com', 'Admin') ");
+                    " '"+getPassword()+"', 'Admin') ");
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
@@ -110,35 +111,32 @@ public class AdminMethods extends Voter {
             close();
         }
     }
-    public void editPassword(){
+    public void editPassword(String currentPass, String newPassword, String confirmNewPassword){
         try {
             connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
                 "root", "Cecilia2002");
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from voting_database");
-            System.out.println("Enter current password ");
-            admin.setChangeCurrent(new Scanner(System.in).next());
-            while(resultSet.next()){
-                if(admin.getChangeCurrent().equals(resultSet.getString("password"))){
-                    System.out.println("Enter new password ");
-                    admin.setNewPassword(new Scanner(System.in).next());
-                    System.out.println("Confirm new password ");
-                    admin.setConfirmPassword(new Scanner(System.in).next());
-                    if(admin.getConfirmPassword().equals(admin.getNewPassword())){
+            admin.setChangeCurrent(currentPass);
+            while(resultSet.next()) {
+                //check if password entered by user matches with current password
+                if (admin.getChangeCurrent().equals(resultSet.getString("password"))) {
+                    setPassFound(true);
+                    admin.setNewPassword(newPassword);
+                    admin.setConfirmPassword(confirmNewPassword);
+                    //check confirm password and new password
+                    if (admin.getConfirmPassword().equals(admin.getNewPassword())) {
                         updateAdminPassword();
                         System.out.println("Password Successfully Changed!");
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.println("Password mismatch!");
                     }
                     break;
-                }
-                else {
+                } else {
                     setPassFound(false);
                 }
-            }
-            if(!isPassFound()){
+            }if (!isPassFound()) {
                 System.out.println("Incorrect password");
             }
         }catch (SQLException e){
