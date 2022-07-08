@@ -16,10 +16,6 @@ public class Election {
         return difference = Math.abs(getCurrentDate().compareTo(getVotingDate2()));
     }
 
-    public void setDifference() throws ParseException {
-        this.difference  = Math.abs(getCurrentDate().compareTo(getVotingDate2()));
-    }
-
     public Date getDate() {
         return date;
     }

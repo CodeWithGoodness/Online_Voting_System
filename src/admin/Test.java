@@ -5,18 +5,7 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class Test {
-    public static void main(String[]args) throws ParseException, SQLException {
-      //  Admin admin = new Admin();
-        AdminMethods adminMethods = new AdminMethods();
-     //   AdminMethods.database();
-     //   Election election = new Election();
-      //  CandidatesMethods candidatesMethods = new CandidatesMethods();
-       // ElectionMethods electionMethods = new ElectionMethods();
-       // adminMethods.addAdmins("baby", "boo","F", "Adamawa", 21, "tree");
-       // adminMethods.editVotersPassword("tree", "admins", "admins");
-//        electionMethods.changeVotingDay("07/07/2022");
-//       ElectionMethods.votingDay("6/7/2022");
-   //     VoterMethods.votersMenu();
-
+    public static void main(String[]args)  {
+    System.out.println("Sss fjv");
     }
 }

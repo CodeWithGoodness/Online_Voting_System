@@ -45,8 +45,10 @@ public class CandidatesMethods {
                 System.out.print("Press 0 if there are no more candidates to add and 1 if you wish to add more: ");
                 String input = new Scanner(System.in).next();
                 if (input.equals("0")) {
+                    AdminMethods.clearScreen();
                     break;
                 } else if (input.equals("1")) {
+                    AdminMethods.clearScreen();
                     continue;
                 } else
                     System.out.print("Press 0 if there are no more candidates to add and 1 if you wish to add more");

@@ -66,28 +66,7 @@ public class VoterMethods {
         }
     }
     public void checkVoted(){//checks for people that have voted already
-        try{
-            voter.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
-                    "root", "Cecilia2002");
-            voter.statement = voter.connection.createStatement();
-            System.out.print("First name: ");
-            voter.setFirstName(new Scanner(System.in).next());
-            System.out.print("Password: ");
-            voter.setPassword(new Scanner(System.in).next());
-            voter.resultSet = voter.statement.executeQuery
-                    ("select * from voting_database where status = 'voter' && firstName = '"+voter.getFirstName()+"' && password = '"+voter.getPassword()+"'");
-            while(voter.resultSet.next()){
-                if(voter.resultSet.getString("hasVoted").equalsIgnoreCase("t")){
-                    System.out.println("You've voted already");
-                    break;
-                }
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            AdminMethods.close();
-            AdminMethods.closeResult();
-        }
+
     }
     public static void votersMenu(){
         AdminMethods adminMethods = new AdminMethods();
@@ -100,7 +79,7 @@ public class VoterMethods {
                     CandidatesMethods.displaySenCandidates();
                     break;
                 case "2":
-                    ElectionMethods.votingDay("07/07/2022");
+                    ElectionMethods.votingDay("08/07/2022");
                     break;
                 case "3":
                     ElectionMethods.results();

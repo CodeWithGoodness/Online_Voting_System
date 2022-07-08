@@ -6,14 +6,15 @@ public class General {
         AdminMethods adminMethods = new AdminMethods();
         Scanner input = new Scanner(System.in);
         while (true){
-            System.out.println("Welcome to the online voting System. Are you a user or an admin? \n1. User \n2.Admin");
+            System.out.println("Welcome to the online voting System.\nAre you a user or an admin? \n1. User \n2.Admin");
             String userInput1=  input.next();
+            AdminMethods.clearScreen();
             switch (userInput1){
-                case "1":
-                    System.out.println(" 1. Register  \n2.Login (if you have an account already)");
+                case "1"://Register or login
+                    System.out.println("1. Register  \n2.Login (if you have an account already)");
                     String userInput2=  input.next();
                     switch (userInput2){
-                        case "1":
+                        case "1"://Takes user input and inserts to database
                             System.out.print("First name: ");
                             String firstName = input.next();
                             System.out.print("Last name: ");
@@ -29,7 +30,7 @@ public class General {
 
                             voterMethods.Register(firstName, lastName, gender, origin, age, password);
                             break;
-                        case "2":
+                        case "2"://checks if name and password exists in database
                             System.out.print("First name: ");
                             String firstName2 = input.next();
                             System.out.print("Password: ");
@@ -40,7 +41,7 @@ public class General {
                             System.out.println("Press 1 to register or 2 to login");
                     }
                     break;
-                case "2":
+                case "2"://log in, only for people registered as admins
                     System.out.print("Enter your First Name: ");
                     String firstName2 = input.next();
                     System.out.print("Enter your password: ");

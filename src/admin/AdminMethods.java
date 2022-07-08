@@ -10,7 +10,9 @@ public class AdminMethods extends Voter {
     ResultSet resultSet = null;
     Admin admin = new Admin();
     Voter reg = new Voter();
-
+    //A general database for voters, admins and candidates
+    //Chief admin in database to add other admins to the database. Admins have a common password
+    // candidates are added by admins
     public static void database() throws SQLException {
         AdminMethods adminMethods = new AdminMethods();
         try {
@@ -29,7 +31,7 @@ public class AdminMethods extends Voter {
             close();
         }
     }
-
+    //closes connections and statements
     public static void close(){
         AdminMethods adminMethods = new AdminMethods();
         try {
@@ -43,6 +45,7 @@ public class AdminMethods extends Voter {
             ex.printStackTrace();
         }
     }
+    //closes resultset
     public static void closeResult(){
         AdminMethods adminMethods = new AdminMethods();
         try {
@@ -85,6 +88,7 @@ public class AdminMethods extends Voter {
             close();
         }
     }
+    //Available actions for admins
     public static void adminMenu() throws SQLException {
         AdminMethods adminMethods = new AdminMethods();
         System.out.println("1.Remove Admins \n2. Remove Candidate \n3. Edit password \n4. Check Results \n5. Add Candidate \n6. Add Admin");
@@ -287,6 +291,14 @@ public class AdminMethods extends Voter {
             e.printStackTrace();
         }finally {
             AdminMethods.close();
+        }
+    }
+    public static void clearScreen(){
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        }
+        catch (Exception e){
+            System.out.println(e);
         }
     }
 }
