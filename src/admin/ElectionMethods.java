@@ -22,7 +22,6 @@ public class ElectionMethods {
                 while(voter.resultSet.next()){
                     if(voter.resultSet.getString("hasVoted").equalsIgnoreCase("t")){
                         System.out.println("You've voted already");
-                        break;
                     }
                     else {
                         System.out.println("Vote by entering your choice of Candidate's number as displayed");
@@ -36,6 +35,7 @@ public class ElectionMethods {
                         voter.setHasVoted(true);
                         voter.statement.executeUpdate("update voting_database set hasVoted = 'T' where firstName = '"+voter.getFirstName()+"'");
                     }
+                    break;
                 }
             }catch (SQLException e){
                 e.printStackTrace();

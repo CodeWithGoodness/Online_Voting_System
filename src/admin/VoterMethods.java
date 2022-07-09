@@ -79,7 +79,7 @@ public class VoterMethods {
                     CandidatesMethods.displaySenCandidates();
                     break;
                 case "2":
-                    ElectionMethods.votingDay("08/07/2022");
+                    ElectionMethods.votingDay("09/07/2022");
                     break;
                 case "3":
                     ElectionMethods.results();

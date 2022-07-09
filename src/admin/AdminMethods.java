@@ -21,7 +21,7 @@ public class AdminMethods extends Voter {
             adminMethods.statement = adminMethods.connection.createStatement();
             adminMethods.statement.executeUpdate("create table voting_Database (ID " +
                     "int auto_increment primary key, firstName varchar(50), lastName varchar(50), Gender Enum('M', 'F'), State varchar(20)," +
-                    "Age int, Position varchar (20), Date Date, Party varchar(10), Votes int,password varchar(50), Status varChar(12), hasVoted Enum('T', 'F'))");
+                    "Age int, Position varchar (20), Party varchar(10), Votes int,password varchar(50), Status varChar(12), hasVoted Enum('T', 'F'))");
         }catch (SQLSyntaxErrorException ex) {
             ex.printStackTrace();
             //System.out.println("Table already created");

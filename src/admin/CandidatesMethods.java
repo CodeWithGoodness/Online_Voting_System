@@ -8,7 +8,7 @@ public class CandidatesMethods {
     Connection connection = null;
     Statement statement = null;
     ResultSet resultSet = null;
-
+        //There are only 2 positions available(president and senate president)
     public static void registerCandidate() throws SQLException {
         Voter nv = new Voter();
         Candidates nc = new Candidates();
