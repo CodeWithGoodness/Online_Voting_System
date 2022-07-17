@@ -5,6 +5,7 @@ public class General {
         VoterMethods voterMethods = new VoterMethods();
         AdminMethods adminMethods = new AdminMethods();
         Scanner input = new Scanner(System.in);
+        AdminMethods.clearScreen();
         while (true){
             System.out.println("Welcome to the online voting System.\nAre you a user or an admin? \n1. User \n2.Admin");
             String userInput1=  input.next();

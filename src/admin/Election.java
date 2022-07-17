@@ -12,8 +12,12 @@ public class Election {
     private String currentDate = format.format(date);
     private int difference;
 
+//    public int getDifference() throws ParseException {
+//        return difference = getCurrentDate().compareTo(getVotingDate2());
+//    }
     public int getDifference() throws ParseException {
-        return difference = Math.abs(getCurrentDate().compareTo(getVotingDate2()));
+        getElectionDate();
+        return difference = getDate().getDay()-getVotingDate().getDay();
     }
 
     public Date getDate() {
@@ -36,7 +40,7 @@ public class Election {
         return votingDate = format.parse(electionDate);
     }
 
-   public void setVotingDate(String electionDate) throws ParseException {;
+   public void setVotingDate(String electionDate) throws ParseException {
        this.votingDate = format.parse(electionDate);
     }
 
