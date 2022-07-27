@@ -29,5 +29,7 @@ The classes in this project includes:
 some methods were shared by all classes such as the close and closeResultset ehich closes database connections, statements and resultset.
 
 #### Developed interest in this project due to the ongoing election process in Nigeria, an online voting system such as this would make it possible for more people to register under a short time frame snd as well in a less stressful manner.
-.       , 
+## Author
+Goodness Okoro
+       , 
 
