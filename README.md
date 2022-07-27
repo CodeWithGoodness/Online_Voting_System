@@ -1,7 +1,7 @@
 ﻿# Online_Voting_System
  
 ## Description
-The online _voting_system is designed to make election processes more effective and less stressful. This involves the admins(election officials), voters and candidates. The candidates are to be added by the admins, hence only the admins snd voters can log in to this system.
+The online _voting_system is designed to make election processes more effective and less stressful. This involves the admins(election officials), voters and candidates. The candidates are to be added by the admins, hence only the admins and voters can log in to this system.
 The admins and voters have different actions they're able to perform. The database used for this project is SQL.
 ### Admins
 1. Adding admins: only a previously registered admin can add another admin. All admins have a common log in password.
@@ -9,12 +9,12 @@ The admins and voters have different actions they're able to perform. The databa
 3. Edit the admin password
 4. Check the election results
 ### Voters
-1. They can view registered candidates fir rhe election
+1. They can view registered candidates for rhe election
 2. Cast their vote, this is a one time action.
 3. View results
 4. Change password
 
-The classes in this project includes:
+The classes in this project include:
 1. General: This class contains the main method, thus where you run this project from. It Starts by asking if you're an Admin or just voter and in either case would be confirmed by your log in details (name and password). A new voter can as well be registered.
 2. Admin : contains the getters and setters for the AdminMethods class.
 3. AdminMethods: methods in this class are the actions which can be performed by admins.
