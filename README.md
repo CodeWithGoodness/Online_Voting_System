@@ -14,7 +14,7 @@ The admins and voters have different actions they're able to perform. The databa
 3. View results
 4. Change password
 
-The classes used in this project includes:
+The classes in this project includes:
 1. General: This class contains the main method, thus where you run this project from. It Starts by asking if you're an Admin or just voter and in either case would be confirmed by your log in details (name and password). A new voter can as well be registered.
 2. Admin : contains the getters and setters for the AdminMethods class.
 3. AdminMethods: methods in this class are the actions which can be performed by admins.
