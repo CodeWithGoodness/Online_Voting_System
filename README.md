@@ -16,7 +16,13 @@ The admins and voters have different actions they're able to perform. The databa
 
 The classes used in this projects includes:
 1. General: This class contains the main method, thus where you run this project from. It Starts by asking if you're an Admin or just voter and in either case would be confirmed by your log in details (name and password). A new voter can as well be registered.
-2. Admin : contains the getters and setters for the adminMethods class.
-3. AdminMethods: methods in this class contains the actions which can be performed by admins.
-4. 
+2. Admin : contains the getters and setters for the AdminMethods class.
+3. AdminMethods: methods in this class are the actions which can be performed by admins.
+4. Voter: contains the getters and setters for the VoterMethods class.
+5. VoterMethods: methods in this class are the actions which can be performed by Voters.
+6. Candidates: contains the getters and setters for the CandidatesMethods class.
+7. CandidatesMethods: This has the register candidates method and the code to display csndidates too.
+8. Election: contains getters snd setters for ElectionMethods class.
+9. ElectionMethods: contsins code to check for the election day and allow voters vote on election day. Al
+.       , 
 
