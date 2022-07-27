@@ -23,6 +23,11 @@ The classes used in this projects includes:
 6. Candidates: contains the getters and setters for the CandidatesMethods class.
 7. CandidatesMethods: This has the register candidates method and the code to display csndidates too.
 8. Election: contains getters snd setters for ElectionMethods class.
-9. ElectionMethods: contsins code to check for the election day and allow voters vote on election day. Al
+9. ElectionMethods: contains code to check for the election day and allow voters vote only once on election day. 
+10. Test class: used to testing the codes in steps while working on the program.
+
+some methods were shared by all classes such as the close and closeResultset ehich closes database connections, statements and resultset.
+
+#### Developed interest in this project due to the ongoing election process in Nigeria, an online voting system such as this would make it possible for more people to register under a short time frame snd as well in a less stressful manner.
 .       , 
 
