@@ -36,7 +36,7 @@ public class CandidatesMethods {
                 System.out.print("party: ");
                 nc.setParty(new Scanner(System.in).next());
 
-                candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+                candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                         "root", "Cecilia2002");
                 candidatesMethods.statement = candidatesMethods.connection.createStatement();
                 candidatesMethods.statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
@@ -65,7 +65,7 @@ public class CandidatesMethods {
     public static void displayPresCandidates(){
         CandidatesMethods candidatesMethods = new CandidatesMethods();
         try{
-            candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             candidatesMethods.statement = candidatesMethods.connection.createStatement();
             candidatesMethods.resultSet = candidatesMethods.statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'president'");
@@ -84,7 +84,7 @@ public class CandidatesMethods {
     public static void displaySenCandidates(){
         CandidatesMethods candidatesMethods = new CandidatesMethods();
         try{
-            candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            candidatesMethods.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             Statement statement = candidatesMethods.connection.createStatement();
             candidatesMethods.resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'Senate'");

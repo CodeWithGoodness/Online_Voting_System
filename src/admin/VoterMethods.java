@@ -18,7 +18,7 @@ public class VoterMethods {
             voter.setPassword(password);
             voter.setHasVoted(false);
 
-            voter.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            voter.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             voter.statement = voter.connection.createStatement();
             voter.statement.executeUpdate("insert into voting_database (firstName,lastName, Gender, State," +
@@ -36,7 +36,7 @@ public class VoterMethods {
     }
     public boolean logIn(String firstname, String password){
         try{
-            voter.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            voter.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             voter.statement = voter.connection.createStatement();
             voter.resultSet = voter.statement.executeQuery("select * from voting_database");
@@ -99,7 +99,7 @@ public class VoterMethods {
         Voter reg = new Voter();
         try
         {
-            reg.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            reg.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             reg.statement = reg.connection.createStatement();
             reg.resultSet = reg.statement.executeQuery("Select * from voting_database");

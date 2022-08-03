@@ -9,9 +9,9 @@ public class ElectionMethods {
         Election election = new Election();
         Voter voter = new Voter();
         election.setElectionDate(date);
-        if (election.getCurrentDate().compareTo(election.getVotingDate2()) == 0){
+        if (election.getDate().compareTo(election.getVotingDate()) == 0){
             try{
-                voter.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb", "root", "Cecilia2002");
+                voter.connection = DriverManager.getConnection("jdbc:mysql:///mydb", "root", "Cecilia2002");
                 voter.statement = voter.connection.createStatement();
                 System.out.print("First name: ");
                 voter.setFirstName(new Scanner(System.in).next());
@@ -44,8 +44,8 @@ public class ElectionMethods {
                 AdminMethods.closeResult();
             }
         }
-        else if (election.getCurrentDate().compareTo(election.getVotingDate2()) > 0) {
-            System.out.println("Voting ended " + election.getDifference() + " day(s) ago!");
+        else if (election.getDate().compareTo(election.getVotingDate()) > 0) {
+            System.out.println("Voting has ended!");
         }else {
             System.out.println("Voting is in " + election.getDifference() + " day(s) time!");
         }
@@ -53,11 +53,10 @@ public class ElectionMethods {
 
     public static void results(){
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             Statement statement = connection.createStatement();
-           ResultSet resultSet = statement.executeQuery("select * from voting_database where status = 'candidate' && position = 'Senate'");
-            System.out.println("Senatorial candidates");
+           ResultSet resultSet = statement.executeQuery("select * from voting_database where status = 'candidate'");
             while (resultSet.next()){
                 System.out.println( resultSet.getString("firstname") +" "+ resultSet.getString("lastname")+
                         "\t"+resultSet.getString( "party" ).toUpperCase()+ "\t" + resultSet.getString("votes"));

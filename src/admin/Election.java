@@ -12,12 +12,8 @@ public class Election {
     private String currentDate = format.format(date);
     private int difference;
 
-//    public int getDifference() throws ParseException {
-//        return difference = getCurrentDate().compareTo(getVotingDate2());
-//    }
     public int getDifference() throws ParseException {
-        getElectionDate();
-        return difference = getDate().getDay()-getVotingDate().getDay();
+        return difference = getDate().compareTo(getVotingDate());
     }
 
     public Date getDate() {

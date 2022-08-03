@@ -16,7 +16,7 @@ public class AdminMethods extends Voter {
     public static void database() throws SQLException {
         AdminMethods adminMethods = new AdminMethods();
         try {
-            adminMethods.connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            adminMethods.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             adminMethods.statement = adminMethods.connection.createStatement();
             adminMethods.statement.executeUpdate("create table voting_Database (ID " +
@@ -76,7 +76,7 @@ public class AdminMethods extends Voter {
         System.out.print("Password: ");
         setPassword(new Scanner(System.in).next());
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             statement.executeUpdate("insert into voting_database (FirstName,lastName, Gender, State," +
@@ -135,7 +135,7 @@ public class AdminMethods extends Voter {
         System.out.print("Position name: ");
         String removePosition =  new Scanner(System.in).next();
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             statement.executeUpdate("delete from voting_database where firstName = '"+removeFirstName+"' && " +
@@ -153,7 +153,7 @@ public class AdminMethods extends Voter {
         System.out.print("Last name: ");
         String removeLastname =  new Scanner(System.in).next();
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             statement.executeUpdate("delete from voting_database where firstName = '"+removeFirstName+"' && " +
@@ -166,10 +166,10 @@ public class AdminMethods extends Voter {
     }
     public void editAdminPassword(String currentPass, String newPassword, String confirmNewPassword){
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                 "root", "Cecilia2002");
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from voting_database where status = admin");
+            resultSet = statement.executeQuery("select * from voting_database where status = 'admin'");
             admin.setChangeCurrent(currentPass);
             while(resultSet.next()) {
                 //check if password entered by user matches with current password
@@ -201,7 +201,7 @@ public class AdminMethods extends Voter {
     }
     public void editVotersPassword(){
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from voting_database where status = 'voter'");
@@ -240,7 +240,7 @@ public class AdminMethods extends Voter {
 
     public boolean checkAdminPassword(String firstName, String password){
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from voting_database where status = 'Admin'");
@@ -270,7 +270,7 @@ public class AdminMethods extends Voter {
     }
     public void updateAdminPassword(){
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             statement.executeUpdate("update voting_database set password = '"+admin.getConfirmPassword()+"' where status = 'Admin'");
@@ -282,7 +282,7 @@ public class AdminMethods extends Voter {
     }
     public void updateVotPassword(){
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://DESKTOP-9M33U7D/mydb",
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mydb",
                     "root", "Cecilia2002");
             statement = connection.createStatement();
             statement.executeUpdate("update voting_database set password = '"+admin.getConfirmPassword()+"' where status = 'Voter' &&" +
